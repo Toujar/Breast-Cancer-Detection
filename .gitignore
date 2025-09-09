@@ -1,40 +1,52 @@
-# dependencies
+# -----------------------------
+# Node.js / Next.js
+# -----------------------------
 /node_modules
 /.pnp
 .pnp.js
-
-# testing
-/coverage
-
-# next.js
 /.next/
-out/
-
-# production
+/out/
 /build
 
-# misc
-.DS_Store
-Thumbs.db
-*.pem
+# -----------------------------
+# Testing / Coverage
+# -----------------------------
+/coverage
 
-# debug
+# -----------------------------
+# Production / Deployment
+# -----------------------------
+# (optional build directories)
+dist/
+
+# -----------------------------
+# Logs / Debug
+# -----------------------------
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+pnpm-debug.log*
 
-# local env files
+# -----------------------------
+# Environment Files
+# -----------------------------
 .env
 .env*.local
 
-# vercel
+# -----------------------------
+# Vercel
+# -----------------------------
 .vercel
 
-# typescript
+# -----------------------------
+# TypeScript
+# -----------------------------
 *.tsbuildinfo
 next-env.d.ts
 
-# Python cache
+# -----------------------------
+# Python
+# -----------------------------
 **/__pycache__/
 *.py[cod]
 *.pyo
@@ -42,11 +54,36 @@ next-env.d.ts
 *.egg-info/
 .python-version
 
-# Virtual environment
+# Virtual environments
+venv/
+env/
 mi-backend/venv/
 
-# Jupyter Notebook checkpoints
+# -----------------------------
+# Jupyter Notebook
+# -----------------------------
 .ipynb_checkpoints/
 
-# VSCode settings
+# -----------------------------
+# Editor / IDE files
+# -----------------------------
 .vscode/
+.idea/
+
+# -----------------------------
+# OS files
+# -----------------------------
+.DS_Store
+Thumbs.db
+
+# -----------------------------
+# Temporary / Swap files
+# -----------------------------
+*~
+*.swp
+*.swo
+
+# -----------------------------
+# Security / Certificates
+# -----------------------------
+*.pem
