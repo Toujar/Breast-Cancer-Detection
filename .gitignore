@@ -1,89 +1,25 @@
-# -----------------------------
 # Node.js / Next.js
-# -----------------------------
 /node_modules
-/.pnp
-.pnp.js
 /.next/
 /out/
 /build
 
-# -----------------------------
-# Testing / Coverage
-# -----------------------------
-/coverage
-
-# -----------------------------
-# Production / Deployment
-# -----------------------------
-# (optional build directories)
-dist/
-
-# -----------------------------
-# Logs / Debug
-# -----------------------------
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-pnpm-debug.log*
-
-# -----------------------------
-# Environment Files
-# -----------------------------
-.env
-.env*.local
-
-# -----------------------------
-# Vercel
-# -----------------------------
-.vercel
-
-# -----------------------------
-# TypeScript
-# -----------------------------
-*.tsbuildinfo
-next-env.d.ts
-
-# -----------------------------
 # Python
-# -----------------------------
 **/__pycache__/
 *.py[cod]
 *.pyo
 *.pyd
-*.egg-info/
-.python-version
-
-# Virtual environments
 venv/
 env/
 mi-backend/venv/
 
-# -----------------------------
-# Jupyter Notebook
-# -----------------------------
-.ipynb_checkpoints/
+# Logs
+*.log
 
-# -----------------------------
-# Editor / IDE files
-# -----------------------------
-.vscode/
-.idea/
+# Env / Secrets
+.env
+.env*.local
 
-# -----------------------------
 # OS files
-# -----------------------------
 .DS_Store
 Thumbs.db
-
-# -----------------------------
-# Temporary / Swap files
-# -----------------------------
-*~
-*.swp
-*.swo
-
-# -----------------------------
-# Security / Certificates
-# -----------------------------
-*.pem
