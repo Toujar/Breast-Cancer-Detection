@@ -47,7 +47,7 @@ export default function ResultsPage() {
   const [result, setResult] = useState<PredictionResult | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState('');
-  const [user, setUser] = useState<{ name: string } | null>(null);
+  const [user, setUser] = useState<{ email: string; username: string; role: string } | null>(null);
 
   const predictionId = params.id as string;
 
@@ -72,18 +72,36 @@ export default function ResultsPage() {
     //   return;
     // }
 
-    fetchResult();
+    pollForResult();
   }, [user, predictionId, router]);
 
-  const fetchResult = async () => {
+  const pollForResult = async () => {
+    setIsLoading(true);
+    setError('');
     try {
-      const response = await fetch(`/api/results/${predictionId}`);
-      if (response.ok) {
-        const data = await response.json();
-        setResult(data);
-      } else {
-        setError('Result not found');
+      const maxAttempts = 20; // ~15s total depending on interval
+      const intervalMs = 750;
+      for (let attempt = 1; attempt <= maxAttempts; attempt++) {
+        const response = await fetch(`/api/results/${predictionId}`, { cache: 'no-store' });
+
+        if (response.ok) {
+          const data = await response.json();
+          setResult(data);
+          setIsLoading(false);
+          return;
+        }
+
+        if (response.status === 401 || response.status === 403) {
+          setError('You are not authorized to view this result.');
+          setIsLoading(false);
+          return;
+        }
+
+        // If not ready yet (e.g., 404 while backend still saving), wait and try again
+        await new Promise(resolve => setTimeout(resolve, intervalMs));
       }
+
+      setError('Result is still being prepared. Please try again in a moment.');
     } catch (error) {
       setError('Failed to load results');
     } finally {
@@ -93,7 +111,10 @@ export default function ResultsPage() {
 
   const handleDownloadReport = async () => {
     try {
-      const response = await fetch(`/api/results/${predictionId}/pdf`);
+      const url = new URL(`/api/results/${predictionId}/pdf`, window.location.origin);
+      const tokenParam = new URLSearchParams(window.location.search).get('token');
+      if (tokenParam) url.searchParams.set('token', tokenParam);
+      const response = await fetch(url.toString());
       if (response.ok) {
         const blob = await response.blob();
         const url = window.URL.createObjectURL(blob);
@@ -110,6 +131,19 @@ export default function ResultsPage() {
     }
   };
 
+  const handleShare = async () => {
+    try {
+      const res = await fetch(`/api/results/${predictionId}/share`, { method: 'POST' });
+      if (!res.ok) return;
+      const data = await res.json();
+      const shareUrl = data.shareUrl as string;
+      await navigator.clipboard.writeText(shareUrl);
+      alert('Share link copied to clipboard');
+    } catch (e) {
+      alert('Failed to create share link');
+    }
+  };
+
   // if (!user) return null;
 
   if (isLoading) {
@@ -123,7 +157,7 @@ export default function ResultsPage() {
     );
   }
 
-  if (error || !result) {
+  if (error) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-indigo-50 flex items-center justify-center">
         <Card className="max-w-md">
@@ -131,11 +165,34 @@ export default function ResultsPage() {
             <AlertTriangle className="h-12 w-12 text-red-600 mx-auto mb-4" />
             <h2 className="text-xl font-semibold mb-2">Error Loading Results</h2>
             <p className="text-gray-600 mb-6">{error}</p>
-            <Link href="/dashboard">
-              <Button>Return to Dashboard</Button>
-            </Link>
+            <div className="flex flex-col sm:flex-row gap-3 justify-center">
+              <Button onClick={pollForResult} disabled={isLoading}>
+                {isLoading ? (
+                  <>
+                    <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                    Retrying...
+                  </>
+                ) : (
+                  'Try Again'
+                )}
+              </Button>
+              <Link href="/dashboard">
+                <Button variant="outline">Return to Dashboard</Button>
+              </Link>
+            </div>
           </CardContent>
         </Card>
+      </div>
+    );
+  }
+
+  if (!result) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-indigo-50 flex items-center justify-center">
+        <div className="text-center">
+          <Loader2 className="h-12 w-12 text-blue-600 animate-spin mx-auto mb-4" />
+          <p className="text-gray-600">Waiting for analysis result...</p>
+        </div>
       </div>
     );
   }
@@ -177,7 +234,7 @@ export default function ResultsPage() {
             </div>
             <div className="text-right">
               <p className="text-sm text-gray-600">
-                {user ? `Dr. ${user.name}` : ''}
+                {user ? `Dr. ${user.username}` : ''}
               </p>
             </div>
           </div>
@@ -200,7 +257,7 @@ export default function ResultsPage() {
               <Download className="h-4 w-4 mr-2" />
               Download Report
             </Button>
-            <Button variant="outline">
+            <Button variant="outline" onClick={handleShare}>
               <Share2 className="h-4 w-4 mr-2" />
               Share
             </Button>

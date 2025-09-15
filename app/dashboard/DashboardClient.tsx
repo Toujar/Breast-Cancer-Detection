@@ -42,7 +42,7 @@ interface RecentPrediction {
 export default function DashboardClient() {
   // const { user, logout } = useAuth();
   const router = useRouter();
-  const [user, setUser] = useState<any>(null);
+  const [user, setUser] = useState<{email: string; username: string; role: string} | null>(null);
   const [stats, setStats] = useState<DashboardStats>({
     totalPredictions: 0,
     recentPredictions: 0,
@@ -99,7 +99,7 @@ export default function DashboardClient() {
    const handleLogout = async () => {
     // clear cookie
     await fetch('/api/auth/logout', { method: 'POST' });
-    router.push('/auth');
+    router.push('/');
   };
 
   if (isLoading) {
@@ -133,7 +133,15 @@ export default function DashboardClient() {
               </div>
             </Link>
             <div className="flex items-center space-x-4">
-              <span className="text-sm text-gray-700">Dr. {user.email}</span>
+              <div className="text-right">
+                <div className="flex items-center space-x-2">
+                  <span className="text-sm font-medium text-gray-900">{user?.username ?? 'User'}</span>
+                  <Badge variant={user?.role === 'admin' ? 'default' : 'secondary'}>
+                    {user?.role === 'admin' ? '👑 Admin' : '👤 User'}
+                  </Badge>
+                </div>
+                <span className="text-xs text-gray-500">{user?.email ?? 'user@example.com'}</span>
+              </div>
               <Button variant="ghost" size="sm" onClick={handleLogout}>
                 <LogOut className="h-4 w-4 mr-2" />
                 Logout
@@ -147,7 +155,7 @@ export default function DashboardClient() {
         {/* Header */}
         <div className="mb-8">
           <h1 className="text-3xl font-bold text-gray-900 mb-2">
-            Welcome back, Dr. {user.email}
+            Welcome back, {user?.username ?? 'User'}
           </h1>
           <p className="text-gray-600">
             Monitor your AI-assisted breast cancer detection activities and insights.
@@ -289,10 +297,24 @@ export default function DashboardClient() {
                     ))}
                   </div>
                 ) : (
-                  <div className="text-center py-8">
+                  <div className="text-center py-10">
                     <FileText className="h-12 w-12 text-gray-400 mx-auto mb-4" />
-                    <p className="text-gray-500">No predictions yet</p>
-                    <p className="text-sm text-gray-400">Start your first analysis to see results here</p>
+                    <h3 className="text-xl font-semibold text-gray-900 mb-2">Be the first to predict!</h3>
+                    <p className="text-gray-600 mb-6">Kickstart your journey with a quick analysis below.</p>
+                    <div className="flex flex-col sm:flex-row gap-3 justify-center">
+                      <Link href="/predict/tabular">
+                        <Button>
+                          <FileText className="h-4 w-4 mr-2" />
+                          Start Data Analysis
+                        </Button>
+                      </Link>
+                      <Link href="/predict/image">
+                        <Button variant="outline">
+                          <Upload className="h-4 w-4 mr-2" />
+                          Start Image Analysis
+                        </Button>
+                      </Link>
+                    </div>
                   </div>
                 )}
               </CardContent>

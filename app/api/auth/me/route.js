@@ -5,21 +5,29 @@
 //   try {
 //     const token = req.cookies.get("token")?.value;
 //     if (!token) {
-//       return NextResponse.json({ user: null }, { status: 200 });
+//       return NextResponse.json({ user: null }, { status: 401 });
 //     }
 
 //     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-//     return NextResponse.json({ user: decoded });
+
+//     return NextResponse.json({
+//       user: {
+//         id: decoded.id,
+//         email: decoded.email,
+//         name: decoded.name || decoded.email?.split("@")[0] || "User",
+//       },
+//     });
 //   } catch (err) {
-//     return NextResponse.json({ user: null }, { status: 200 });
+//     return NextResponse.json({ user: null }, { status: 401 });
 //   }
 // }
 import { NextResponse } from "next/server";
+import { cookies } from "next/headers"; // <-- use this
 import jwt from "jsonwebtoken";
 
-export async function GET(req) {
+export async function GET() {
   try {
-    const token = req.cookies.get("token")?.value;
+    const token = cookies().get("token")?.value; // <-- safer
     if (!token) {
       return NextResponse.json({ user: null }, { status: 401 });
     }
@@ -30,7 +38,8 @@ export async function GET(req) {
       user: {
         id: decoded.id,
         email: decoded.email,
-        name: decoded.name || decoded.email?.split("@")[0] || "User",
+        username: decoded.username,
+        role: decoded.role,
       },
     });
   } catch (err) {

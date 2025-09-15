@@ -1,18 +1,29 @@
 import { NextResponse } from 'next/server';
+import { requireAdmin } from '../../_utils/auth-utils';
+import connectDB from '@/lib/mongodb';
+import Result from '@/models/Result';
 
 export async function GET() {
   try {
-    const predictions = Array.from({ length: 50 }, (_, index) => ({
-      id: `admin-pred-${index + 1}`,
-      userName: `Dr. User ${Math.floor(Math.random() * 20) + 1}`,
-      type: Math.random() > 0.5 ? 'tabular' : 'image',
-      result: Math.random() > 0.3 ? 'benign' : 'malignant',
-      confidence: Math.random() * 25 + 70,
-      timestamp: new Date(Date.now() - Math.random() * 30 * 24 * 60 * 60 * 1000).toISOString()
+    requireAdmin();
+    await connectDB();
+    const docs = await Result.find({}, null, { sort: { createdAt: -1 }, limit: 100 }).lean();
+    const predictions = docs.map((d) => ({
+      id: d.predictionId,
+      userName: d.userId,
+      type: d.type,
+      result: d.prediction,
+      confidence: d.confidence,
+      timestamp: new Date(d.createdAt as Date).toISOString(),
     }));
-
     return NextResponse.json(predictions);
-  } catch (error) {
+  } catch (error: any) {
+    if (error?.message === 'UNAUTHORIZED') {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+    if (error?.message === 'FORBIDDEN') {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
     return NextResponse.json(
       { error: 'Failed to fetch admin predictions' },
       { status: 500 }

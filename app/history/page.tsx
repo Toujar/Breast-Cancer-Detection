@@ -46,7 +46,7 @@ export default function HistoryPage() {
   const [filterType, setFilterType] = useState<string>('all');
   const [filterResult, setFilterResult] = useState<string>('all');
   const [isLoading, setIsLoading] = useState(true);
-  const [user, setUser] = useState<{ name: string } | null>(null);
+  const [user, setUser] = useState<{ email: string; username: string; role: string } | null>(null);
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -136,7 +136,7 @@ export default function HistoryPage() {
             </div>
             <div className="text-right">
               <p className="text-sm text-gray-600">
-                {user ? `Dr. ${user.name}` : ''}
+                {user ? `Dr. ${user.username}` : ''}
               </p>
             </div>
           </div>
@@ -288,11 +288,13 @@ export default function HistoryPage() {
             <Card className="border-0 shadow-lg">
               <CardContent className="p-12 text-center">
                 <FileText className="h-16 w-16 text-gray-400 mx-auto mb-4" />
-                <h3 className="text-xl font-semibold text-gray-900 mb-2">No Predictions Found</h3>
+                <h3 className="text-xl font-semibold text-gray-900 mb-2">
+                  {searchTerm || filterType !== 'all' || filterResult !== 'all' ? 'No Results Match Your Filters' : 'Be the First to Predict'}
+                </h3>
                 <p className="text-gray-600 mb-6">
                   {searchTerm || filterType !== 'all' || filterResult !== 'all'
-                    ? 'No results match your current filters.'
-                    : 'You haven\'t made any predictions yet.'
+                    ? 'Try clearing or adjusting your filters to see more results.'
+                    : 'Run your first analysis to build your prediction history.'
                   }
                 </p>
                 <div className="flex flex-col sm:flex-row gap-3 justify-center">

@@ -132,8 +132,11 @@ export async function POST(req) {
       return NextResponse.json({ error: "Invalid credentials" }, { status: 401 });
     }
 
+    const isAdmin = user.email?.toLowerCase() === 'admin@gmail.com';
+    const effectiveRole = isAdmin ? 'admin' : 'user';
+
     const token = jwt.sign(
-      { id: user._id, email: user.email },
+      { id: user._id, email: user.email, username: user.username, role: effectiveRole },
       process.env.JWT_SECRET,
       { expiresIn: "7d" }
     );

@@ -22,7 +22,8 @@ import {
   TrendingUp,
   Clock,
   FileText,
-  CheckCircle
+  CheckCircle,
+  LogOut
 } from 'lucide-react';
 // import { useAuth } from '@/lib/auth-context';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, LineChart, Line, Legend } from 'recharts';
@@ -65,7 +66,7 @@ export default function AdminPage() {
   const [predictions, setPredictions] = useState<PredictionActivity[]>([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [isLoading, setIsLoading] = useState(true);
-  const [user, setUser] = useState<{ email: string; role: string } | null>(null);
+  const [user, setUser] = useState<{ email: string; username: string; role: string } | null>(null);
 
    useEffect(() => {
     const fetchUser = async () => {
@@ -78,18 +79,19 @@ export default function AdminPage() {
   }, []);
 
   useEffect(() => {
-    // if (!user) {
-    //   router.push('/auth');
-    //   return;
-    // }
+    if (!user && !isLoading) {
+      router.push('/auth');
+      return;
+    }
+    if (user && user.role !== 'admin') {
+      router.push('/dashboard');
+      return;
+    }
 
-    // if (user.role !== 'admin') {
-    //   router.push('/dashboard');
-    //   return;
-    // }
-
-    fetchAdminData();
-  }, [user, router]);
+    if (user?.role === 'admin') {
+      fetchAdminData();
+    }
+  }, [user, isLoading, router]);
 
   const fetchAdminData = async () => {
     try {
@@ -117,6 +119,14 @@ export default function AdminPage() {
       console.error('Error fetching admin data:', error);
     } finally {
       setIsLoading(false);
+    }
+  };
+
+  const handleLogout = async () => {
+    try {
+      await fetch('/api/auth/logout', { method: 'POST' });
+    } finally {
+      router.push('/');
     }
   };
 
@@ -157,8 +167,18 @@ export default function AdminPage() {
                 <p className="text-xs text-gray-500">System Management</p>
               </div>
             </div>
-            <div className="text-right">
-              <p className="text-sm text-gray-600">Admin: {user?.email ?? 'N/A'}</p>
+            <div className="flex items-center space-x-4">
+              <div className="text-right">
+                <div className="flex items-center space-x-2">
+                  <span className="text-sm font-medium text-gray-900">{user?.username ?? 'N/A'}</span>
+                  <Badge variant="default">👑 Admin</Badge>
+                </div>
+                <p className="text-xs text-gray-500">{user?.email ?? 'N/A'}</p>
+              </div>
+              <Button variant="ghost" size="sm" onClick={handleLogout}>
+                <LogOut className="h-4 w-4 mr-2" />
+                Logout
+              </Button>
             </div>
           </div>
         </div>
@@ -308,27 +328,35 @@ export default function AdminPage() {
                 </div>
                 
                 <div className="space-y-3">
-                  {filteredUsers.map((userData) => (
-                    <div key={userData.id} className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
-                      <div className="flex items-center space-x-4">
-                        <div className="w-10 h-10 bg-gradient-to-br from-blue-600 to-indigo-600 rounded-full flex items-center justify-center">
-                          <UserCheck className="h-5 w-5 text-white" />
+                  {filteredUsers.length > 0 ? (
+                    filteredUsers.map((userData) => (
+                      <div key={userData.id} className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
+                        <div className="flex items-center space-x-4">
+                          <div className="w-10 h-10 bg-gradient-to-br from-blue-600 to-indigo-600 rounded-full flex items-center justify-center">
+                            <UserCheck className="h-5 w-5 text-white" />
+                          </div>
+                          <div>
+                            <p className="font-medium text-gray-900">{userData.name}</p>
+                            <p className="text-sm text-gray-600">{userData.email}</p>
+                          </div>
                         </div>
-                        <div>
-                          <p className="font-medium text-gray-900">{userData.name}</p>
-                          <p className="text-sm text-gray-600">{userData.email}</p>
+                        <div className="text-right">
+                          <Badge variant={userData.role === 'admin' ? 'default' : 'secondary'}>
+                            {userData.role}
+                          </Badge>
+                          <p className="text-xs text-gray-500 mt-1">
+                            {userData.predictionsCount} predictions
+                          </p>
                         </div>
                       </div>
-                      <div className="text-right">
-                        <Badge variant={userData.role === 'admin' ? 'default' : 'secondary'}>
-                          {userData.role}
-                        </Badge>
-                        <p className="text-xs text-gray-500 mt-1">
-                          {userData.predictionsCount} predictions
-                        </p>
-                      </div>
+                    ))
+                  ) : (
+                    <div className="text-center py-10">
+                      <Users className="h-10 w-10 text-gray-400 mx-auto mb-3" />
+                      <h3 className="text-lg font-semibold text-gray-900 mb-1">No users yet</h3>
+                      <p className="text-gray-600">Invite your team and start making predictions.</p>
                     </div>
-                  ))}
+                  )}
                 </div>
               </CardContent>
             </Card>
@@ -345,31 +373,28 @@ export default function AdminPage() {
               </CardHeader>
               <CardContent>
                 <div className="space-y-3">
-                  {predictions.slice(0, 5).map((prediction) => (
-                    <div key={prediction.id} className="flex items-center space-x-3 p-3 bg-gray-50 rounded-lg">
-                      <div className={`w-8 h-8 rounded-lg flex items-center justify-center ${
-                        prediction.result === 'benign' ? 'bg-green-100' : 'bg-red-100'
-                      }`}>
-                        {prediction.type === 'tabular' ? (
-                          <FileText className={`h-4 w-4 ${
-                            prediction.result === 'benign' ? 'text-green-600' : 'text-red-600'
-                          }`} />
-                        ) : (
-                          <FileText className={`h-4 w-4 ${
-                            prediction.result === 'benign' ? 'text-green-600' : 'text-red-600'
-                          }`} />
-                        )}
+                  {predictions.length > 0 ? (
+                    predictions.slice(0, 5).map((prediction) => (
+                      <div key={prediction.id} className="flex items-center space-x-3 p-3 bg-gray-50 rounded-lg">
+                        <div className={`w-8 h-8 rounded-lg flex items-center justify-center ${prediction.result === 'benign' ? 'bg-green-100' : 'bg-red-100'}`}>
+                          <FileText className={`h-4 w-4 ${prediction.result === 'benign' ? 'text-green-600' : 'text-red-600'}`} />
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <p className="text-sm font-medium text-gray-900 truncate">
+                            {prediction.userName}
+                          </p>
+                          <p className="text-xs text-gray-600">
+                            {prediction.result} ({prediction.confidence.toFixed(1)}%)
+                          </p>
+                        </div>
                       </div>
-                      <div className="flex-1 min-w-0">
-                        <p className="text-sm font-medium text-gray-900 truncate">
-                          {prediction.userName}
-                        </p>
-                        <p className="text-xs text-gray-600">
-                          {prediction.result} ({prediction.confidence.toFixed(1)}%)
-                        </p>
-                      </div>
+                    ))
+                  ) : (
+                    <div className="text-center py-8">
+                      <Activity className="h-8 w-8 text-gray-400 mx-auto mb-2" />
+                      <p className="text-gray-600">No recent activity yet. Encourage users to run their first analysis.</p>
                     </div>
-                  ))}
+                  )}
                 </div>
               </CardContent>
             </Card>

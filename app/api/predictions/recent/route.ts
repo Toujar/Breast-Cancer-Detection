@@ -1,32 +1,21 @@
 import { NextResponse } from 'next/server';
+import connectDB from '@/lib/mongodb';
+import Result from '@/models/Result';
+import { requireUser } from '../../_utils/auth-utils';
 
 export async function GET() {
   try {
-    // Mock recent predictions
-    const predictions = [
-      {
-        id: 'pred-1',
-        type: 'tabular',
-        result: 'benign',
-        confidence: 94.2,
-        date: '2 hours ago'
-      },
-      {
-        id: 'pred-2',
-        type: 'image',
-        result: 'malignant',
-        confidence: 87.6,
-        date: '1 day ago'
-      },
-      {
-        id: 'pred-3',
-        type: 'tabular',
-        result: 'benign',
-        confidence: 91.3,
-        date: '3 days ago'
-      }
-    ];
-
+    const authedUser = requireUser();
+    await connectDB();
+    const query = authedUser.role === 'admin' ? {} : { userId: authedUser.id || authedUser._id };
+    const docs = await Result.find(query, null, { sort: { createdAt: -1 }, limit: 10 }).lean();
+    const predictions = docs.map((d) => ({
+      id: d.predictionId,
+      type: d.type,
+      result: d.prediction,
+      confidence: d.confidence,
+      date: new Date(d.createdAt as Date).toISOString(),
+    }));
     return NextResponse.json(predictions);
   } catch (error) {
     return NextResponse.json(

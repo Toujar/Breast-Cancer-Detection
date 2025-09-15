@@ -384,14 +384,14 @@ export default function Home() {
             accurate breast cancer detection and analysis.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link href={user ? "/predict" : "/auth/signup"}>
+            <Link href={user ? "/predict" : "/auth"}>
               <Button size="lg" variant="secondary" className="text-lg px-8 py-3">
                 Start Free Analysis
                 <ArrowRight className="ml-2 h-5 w-5" />
               </Button>
             </Link>
             <Link href="/about">
-              <Button size="lg" variant="outline" className="text-lg px-8 py-3 border-white text-white hover:bg-white hover:text-blue-600">
+              <Button size="lg" variant="outline" className="text-lg px-8 py-3 border-white text-black hover:bg-white hover:text-blue-600">
                 View Documentation
               </Button>
             </Link>
