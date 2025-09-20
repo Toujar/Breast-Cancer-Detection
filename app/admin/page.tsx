@@ -26,7 +26,7 @@ import {
   LogOut
 } from 'lucide-react';
 // import { useAuth } from '@/lib/auth-context';
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, LineChart, Line, Legend } from 'recharts';
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, LineChart, Line, Legend, PieChart, Pie, Cell } from 'recharts';
 
 interface AdminStats {
   totalUsers: number;
@@ -46,7 +46,9 @@ interface UserActivity {
 
 interface PredictionActivity {
   id: string;
+  userId?: string;
   userName: string;
+  userEmail?: string;
   type: 'tabular' | 'image';
   result: 'benign' | 'malignant';
   confidence: number;
@@ -143,6 +145,24 @@ export default function AdminPage() {
     user.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
     user.email.toLowerCase().includes(searchTerm.toLowerCase())
   );
+
+  // Derived data for pie chart: benign vs malignant counts
+  const pieData = (() => {
+    const counts = predictions.reduce(
+      (acc, p) => {
+        if (p.result === 'benign') acc.benign += 1;
+        else if (p.result === 'malignant') acc.malignant += 1;
+        return acc;
+      },
+      { benign: 0, malignant: 0 }
+    );
+    return [
+      { name: 'Benign', value: counts.benign, fill: '#10B981' },
+      { name: 'Malignant', value: counts.malignant, fill: '#EF4444' },
+    ];
+  })();
+
+  const COLORS = ['#10B981', '#EF4444'];
 
   // if (!user || user.role !== 'admin') return null;
 
@@ -255,8 +275,8 @@ export default function AdminPage() {
         </div>
 
         {/* Charts */}
-        <div className="grid lg:grid-cols-2 gap-8 mb-8">
-          <Card className="border-0 shadow-lg">
+        <div className="grid lg:grid-cols-3 gap-8 mb-8">
+          <Card className="border-0 shadow-lg lg:col-span-2">
             <CardHeader>
               <CardTitle>Platform Growth</CardTitle>
               <CardDescription>Monthly predictions and user registration trends</CardDescription>
@@ -280,21 +300,21 @@ export default function AdminPage() {
 
           <Card className="border-0 shadow-lg">
             <CardHeader>
-              <CardTitle>Usage Trends</CardTitle>
-              <CardDescription>Daily active users and prediction volume</CardDescription>
+              <CardTitle>Prediction Outcomes</CardTitle>
+              <CardDescription>Distribution of benign vs malignant</CardDescription>
             </CardHeader>
             <CardContent>
-              <div className="h-80">
+              <div className="h-80 flex items-center justify-center">
                 <ResponsiveContainer width="100%" height="100%">
-                  <LineChart data={chartData}>
-                    <CartesianGrid strokeDasharray="3 3" />
-                    <XAxis dataKey="name" />
-                    <YAxis />
+                  <PieChart>
+                    <Pie data={pieData} dataKey="value" nameKey="name" cx="50%" cy="50%" outerRadius={100} label>
+                      {pieData.map((entry, index) => (
+                        <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                      ))}
+                    </Pie>
                     <Tooltip />
                     <Legend />
-                    <Line type="monotone" dataKey="predictions" stroke="#3B82F6" strokeWidth={3} name="Predictions" />
-                    <Line type="monotone" dataKey="users" stroke="#10B981" strokeWidth={3} name="Active Users" />
-                  </LineChart>
+                  </PieChart>
                 </ResponsiveContainer>
               </div>
             </CardContent>
@@ -381,7 +401,7 @@ export default function AdminPage() {
                         </div>
                         <div className="flex-1 min-w-0">
                           <p className="text-sm font-medium text-gray-900 truncate">
-                            {prediction.userName}
+                            {prediction.userName} {prediction.userEmail ? `• ${prediction.userEmail}` : ''}
                           </p>
                           <p className="text-xs text-gray-600">
                             {prediction.result} ({prediction.confidence.toFixed(1)}%)

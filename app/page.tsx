@@ -434,8 +434,10 @@ export default function Home() {
               <h3 className="text-white font-semibold mb-4">Support</h3>
               <ul className="space-y-2">
                 <li><Link href="/contact" className="hover:text-white transition-colors">Contact</Link></li>
-                <li><Link href="/privacy" className="hover:text-white transition-colors">Privacy Policy</Link></li>
-                <li><Link href="/terms" className="hover:text-white transition-colors">Terms of Service</Link></li>
+                <li><Link href="/privacy-policy" className="hover:text-white transition-colors">Privacy Policy</Link></li>
+                <li><Link href="/terms-and-conditions" className="hover:text-white transition-colors">Terms of Service</Link></li>
+                <li><Link href="/analytics" className="hover:text-white transition-colors">Analytics</Link></li>
+                <li><Link href="/settings" className="hover:text-white transition-colors">Settings</Link></li>
               </ul>
             </div>
           </div>
