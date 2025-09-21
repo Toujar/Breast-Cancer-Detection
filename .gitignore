@@ -1,16 +1,20 @@
 # --- General ---
 .DS_Store
 Thumbs.db
+ehthumbs.db
+Desktop.ini
 *.log
 logs/
 *.tmp
 *.swp
 *.swo
+._*
 
-# VSCode / IDE
+# --- VSCode / IDE ---
 .vscode/
 .idea/
 *.code-workspace
+.history/
 
 # --- Node / Next.js ---
 node_modules/
@@ -18,7 +22,6 @@ node_modules/
 .pnpm-store/
 .yarn/
 .yarnrc*
-
 .next/
 out/
 .next-cache/
@@ -39,10 +42,10 @@ coverage/
 
 # Env files
 .env
-.env.*
+.env.* 
 !.env.example
 
-# Lockfiles (optional keep one)
+# Lockfiles (optional, keep one)
 # package-lock.json
 # yarn.lock
 # pnpm-lock.yaml
@@ -52,12 +55,15 @@ __pycache__/
 *.py[cod]
 *$py.class
 
-# Distribution / packaging
+# Virtual environments
 .Python
 env/
 venv/
 .venv/
 mi-backend/venv/
+pyvenv.cfg
+
+# Packaging
 build/
 develop-eggs/
 dist/
@@ -90,21 +96,15 @@ htmlcov/
 # Jupyter
 .ipynb_checkpoints/
 
-# Django/Flask logs (generic)
+# Django/Flask logs
 instance/
 *.sqlite3
 
-# --- Project-specific large assets ---
-# Datasets and generated assets
-mi-backend/dataset/
+# --- Project-specific ---
+# Datasets
+mi-backend/dataset/*
 !mi-backend/dataset/README.md
 
-# Trained models / weights
-mi-backend/model/
+# Trained models
+mi-backend/model/*
 !mi-backend/model/README.md
-
-# Local files
-mi-backend/__pycache__/
-
-# OS-specific
-Icon?
