@@ -63,9 +63,10 @@ Breast-Cancer-Detection/
 ### 1. Clone Repository
 ```bash
 git clone https://github.com/your-username/Breast-Cancer-Detection.git
+````
+```bash
 cd Breast-Cancer-Detection
 ````
-
 ---
 
 ### 2. Backend (FastAPI + Python)
@@ -175,7 +176,6 @@ Response:
 
 ## 📝 Future Improvements
 
-* ✅ User authentication (save history per user)
 * ✅ Deployment with Docker (frontend + backend)
 * ✅ Visualization of model explanations (SHAP, Grad-CAM)
 * ✅ Export results to PDF
