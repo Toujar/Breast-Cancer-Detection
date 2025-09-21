@@ -436,8 +436,8 @@ export default function Home() {
                 <li><Link href="/contact" className="hover:text-white transition-colors">Contact</Link></li>
                 <li><Link href="/privacy-policy" className="hover:text-white transition-colors">Privacy Policy</Link></li>
                 <li><Link href="/terms-and-conditions" className="hover:text-white transition-colors">Terms of Service</Link></li>
-                <li><Link href="/analytics" className="hover:text-white transition-colors">Analytics</Link></li>
-                <li><Link href="/settings" className="hover:text-white transition-colors">Settings</Link></li>
+                {/* <li><Link href="/analytics" className="hover:text-white transition-colors">Analytics</Link></li>
+                <li><Link href="/settings" className="hover:text-white transition-colors">Settings</Link></li> */}
               </ul>
             </div>
           </div>
