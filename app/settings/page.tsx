@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -19,7 +20,8 @@ import {
   Heart,
   Shield,
   Bell,
-  Key
+  Key,
+  LogOut
 } from 'lucide-react';
 
 export default function SettingsPage() {
@@ -90,7 +92,7 @@ export default function SettingsPage() {
       });
 
       const data = await res.json();
-      
+
       if (res.ok) {
         setMessage('Profile updated successfully!');
         setUser(prev => prev ? { ...prev, ...data.user } : null);
@@ -127,7 +129,7 @@ export default function SettingsPage() {
       });
 
       const data = await res.json();
-      
+
       if (res.ok) {
         setMessage('Password changed successfully!');
         setFormData(prev => ({
@@ -144,6 +146,12 @@ export default function SettingsPage() {
     } finally {
       setIsSaving(false);
     }
+  };
+
+  const handleLogout = async () => {
+    // clear cookie
+    await fetch('/api/auth/logout', { method: 'POST' });
+    router.push('/');
   };
 
   if (isLoading) {
@@ -193,7 +201,19 @@ export default function SettingsPage() {
               </div>
             </div>
             <div className="flex items-center space-x-4">
-              <span className="text-sm text-gray-700">Welcome, {user.username || user.email}</span>
+              <div className="text-right">
+                <div className="flex items-center space-x-2">
+                  <span className="text-sm font-medium text-gray-900">{user?.username ?? 'User'}</span>
+                  <Badge variant={user?.role === 'admin' ? 'default' : 'secondary'}>
+                    {user?.role === 'admin' ? '👑 Admin' : '👤 User'}
+                  </Badge>
+                </div>
+                <span className="text-xs text-gray-500">{user?.email ?? 'user@example.com'}</span>
+              </div>
+              <Button variant="ghost" size="sm" onClick={handleLogout}>
+                <LogOut className="h-4 w-4 mr-2" />
+                Logout
+              </Button>
             </div>
           </div>
         </div>
@@ -201,22 +221,27 @@ export default function SettingsPage() {
 
       <div className="max-w-4xl mx-auto p-6">
         {/* Header */}
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">
-            Account Settings
-          </h1>
-          <p className="text-gray-600">
+        {/* Header */}
+        <div className="mb-8 flex flex-col space-y-2">
+          <div className="flex items-center space-x-3">
+            <User className="h-8 w-8 text-blue-600" />
+            <h1 className="text-3xl font-extrabold text-gray-900">
+              Account Settings
+            </h1>
+          </div>
+          <p className="text-gray-600 max-w-xl">
             Manage your profile information and account preferences.
           </p>
+          <div className="w-16 h-1 bg-gradient-to-r from-blue-500 via-indigo-500 to-purple-500 rounded-full"></div>
         </div>
+
 
         {/* Message */}
         {message && (
-          <div className={`mb-6 p-4 rounded-lg flex items-center space-x-2 ${
-            message.includes('successfully') 
-              ? 'bg-green-50 text-green-800 border border-green-200' 
-              : 'bg-red-50 text-red-800 border border-red-200'
-          }`}>
+          <div className={`mb-6 p-4 rounded-lg flex items-center space-x-2 ${message.includes('successfully')
+            ? 'bg-green-50 text-green-800 border border-green-200'
+            : 'bg-red-50 text-red-800 border border-red-200'
+            }`}>
             {message.includes('successfully') ? (
               <CheckCircle className="h-5 w-5" />
             ) : (
@@ -228,19 +253,19 @@ export default function SettingsPage() {
 
         <div className="grid lg:grid-cols-2 gap-8">
           {/* Profile Information */}
-          <Card className="border-0 shadow-lg">
+          <Card className="border-0 shadow-xl rounded-xl hover:shadow-2xl transition-all duration-300">
             <CardHeader>
-              <CardTitle className="flex items-center space-x-2">
+              <CardTitle className="flex items-center space-x-2 text-blue-600">
                 <User className="h-5 w-5" />
                 <span>Profile Information</span>
               </CardTitle>
-              <CardDescription>
+              <CardDescription className="text-gray-500">
                 Update your personal details and contact information
               </CardDescription>
             </CardHeader>
             <CardContent>
               <form onSubmit={handleSaveProfile} className="space-y-4">
-                <div className="space-y-2">
+                <div className="space-y-1">
                   <Label htmlFor="username">Username</Label>
                   <Input
                     id="username"
@@ -248,10 +273,11 @@ export default function SettingsPage() {
                     value={formData.username}
                     onChange={handleInputChange}
                     placeholder="Enter your username"
+                    className="border-blue-300 focus:ring-blue-500 focus:border-blue-500"
                   />
                 </div>
 
-                <div className="space-y-2">
+                <div className="space-y-1">
                   <Label htmlFor="email">Email</Label>
                   <Input
                     id="email"
@@ -259,12 +285,12 @@ export default function SettingsPage() {
                     type="email"
                     value={formData.email}
                     disabled
-                    className="bg-gray-50"
+                    className="bg-gray-50 border-gray-300 text-gray-500"
                   />
-                  <p className="text-xs text-gray-500">Email cannot be changed</p>
+                  <p className="text-xs text-gray-400">Email cannot be changed</p>
                 </div>
 
-                <div className="space-y-2">
+                <div className="space-y-1">
                   <Label htmlFor="age">Age</Label>
                   <Input
                     id="age"
@@ -275,10 +301,11 @@ export default function SettingsPage() {
                     placeholder="Enter your age"
                     min="0"
                     max="120"
+                    className="border-blue-300 focus:ring-blue-500 focus:border-blue-500"
                   />
                 </div>
 
-                <div className="space-y-2">
+                <div className="space-y-1">
                   <Label htmlFor="phoneNumber">Phone Number</Label>
                   <Input
                     id="phoneNumber"
@@ -287,10 +314,15 @@ export default function SettingsPage() {
                     value={formData.phoneNumber}
                     onChange={handleInputChange}
                     placeholder="Enter your phone number"
+                    className="border-blue-300 focus:ring-blue-500 focus:border-blue-500"
                   />
                 </div>
 
-                <Button type="submit" disabled={isSaving} className="w-full">
+                <Button
+                  type="submit"
+                  disabled={isSaving}
+                  className="w-full bg-gradient-to-r from-blue-500 via-indigo-500 to-purple-500 hover:from-indigo-500 hover:via-purple-500 hover:to-pink-500 text-white shadow-lg transition-all flex items-center justify-center"
+                >
                   <Save className="h-4 w-4 mr-2" />
                   {isSaving ? 'Saving...' : 'Save Profile'}
                 </Button>
@@ -299,42 +331,41 @@ export default function SettingsPage() {
           </Card>
 
           {/* Security Settings */}
-          <Card className="border-0 shadow-lg">
+          <Card className="border-0 shadow-xl rounded-xl hover:shadow-2xl transition-all duration-300 mt-6">
             <CardHeader>
-              <CardTitle className="flex items-center space-x-2">
+              <CardTitle className="flex items-center space-x-2 text-red-600">
                 <Shield className="h-5 w-5" />
                 <span>Security Settings</span>
               </CardTitle>
-              <CardDescription>
+              <CardDescription className="text-gray-500">
                 Change your password and manage account security
               </CardDescription>
             </CardHeader>
             <CardContent>
               <form onSubmit={handleChangePassword} className="space-y-4">
-                <div className="space-y-2">
+                <div className="space-y-1 relative">
                   <Label htmlFor="currentPassword">Current Password</Label>
-                  <div className="relative">
-                    <Input
-                      id="currentPassword"
-                      name="currentPassword"
-                      type={showPassword ? "text" : "password"}
-                      value={formData.currentPassword}
-                      onChange={handleInputChange}
-                      placeholder="Enter current password"
-                    />
-                    <Button
-                      type="button"
-                      variant="ghost"
-                      size="sm"
-                      className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent"
-                      onClick={() => setShowPassword(!showPassword)}
-                    >
-                      {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
-                    </Button>
-                  </div>
+                  <Input
+                    id="currentPassword"
+                    name="currentPassword"
+                    type={showPassword ? "text" : "password"}
+                    value={formData.currentPassword}
+                    onChange={handleInputChange}
+                    placeholder="Enter current password"
+                    className="border-red-300 focus:ring-red-500 focus:border-red-500"
+                  />
+                  <Button
+                    type="button"
+                    variant="ghost"
+                    size="sm"
+                    className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent"
+                    onClick={() => setShowPassword(!showPassword)}
+                  >
+                    {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                  </Button>
                 </div>
 
-                <div className="space-y-2">
+                <div className="space-y-1">
                   <Label htmlFor="newPassword">New Password</Label>
                   <Input
                     id="newPassword"
@@ -343,10 +374,11 @@ export default function SettingsPage() {
                     value={formData.newPassword}
                     onChange={handleInputChange}
                     placeholder="Enter new password"
+                    className="border-red-300 focus:ring-red-500 focus:border-red-500"
                   />
                 </div>
 
-                <div className="space-y-2">
+                <div className="space-y-1">
                   <Label htmlFor="confirmPassword">Confirm New Password</Label>
                   <Input
                     id="confirmPassword"
@@ -355,26 +387,33 @@ export default function SettingsPage() {
                     value={formData.confirmPassword}
                     onChange={handleInputChange}
                     placeholder="Confirm new password"
+                    className="border-red-300 focus:ring-red-500 focus:border-red-500"
                   />
                 </div>
 
-                <Button type="submit" disabled={isSaving} className="w-full">
+                <Button
+                  type="submit"
+                  disabled={isSaving}
+                  className="w-full bg-gradient-to-r from-red-500 via-pink-500 to-purple-500 hover:from-pink-500 hover:via-purple-500 hover:to-red-500 text-white shadow-lg transition-all flex items-center justify-center"
+                >
                   <Key className="h-4 w-4 mr-2" />
                   {isSaving ? 'Changing...' : 'Change Password'}
                 </Button>
               </form>
             </CardContent>
           </Card>
+
         </div>
 
         {/* Account Information */}
-        <Card className="border-0 shadow-lg mt-8">
+        {/* Account Information */}
+        <Card className="border-0 shadow-xl rounded-xl hover:shadow-2xl transition-all duration-300 mt-8">
           <CardHeader>
-            <CardTitle className="flex items-center space-x-2">
-              <Heart className="h-5 w-5" />
+            <CardTitle className="flex items-center space-x-2 text-pink-600">
+              <Heart className="h-5 w-5 animate-pulse-slow" />
               <span>Account Information</span>
             </CardTitle>
-            <CardDescription>
+            <CardDescription className="text-gray-500">
               Your account details and role information
             </CardDescription>
           </CardHeader>
@@ -384,29 +423,35 @@ export default function SettingsPage() {
                 <div>
                   <Label className="text-sm font-medium text-gray-500">Account Type</Label>
                   <div className="mt-1">
-                    <Badge variant={user.role === 'admin' ? 'default' : 'secondary'}>
+                    <Badge
+                      className={`px-3 py-1 text-sm font-semibold rounded-full shadow-md transition-all ${user.role === 'admin'
+                          ? 'bg-gradient-to-r from-yellow-400 via-orange-400 to-red-400 text-white'
+                          : 'bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 text-white'
+                        }`}
+                    >
                       {user.role === 'admin' ? '👑 Admin' : '👤 User'}
                     </Badge>
                   </div>
                 </div>
                 <div>
                   <Label className="text-sm font-medium text-gray-500">Member Since</Label>
-                  <p className="text-sm text-gray-900">
+                  <p className="text-sm text-gray-900 font-medium">
                     {new Date(user.createdAt || Date.now()).toLocaleDateString()}
                   </p>
                 </div>
               </div>
+
               <div className="space-y-4">
                 <div>
                   <Label className="text-sm font-medium text-gray-500">Last Updated</Label>
-                  <p className="text-sm text-gray-900">
+                  <p className="text-sm text-gray-900 font-medium">
                     {new Date(user.updatedAt || Date.now()).toLocaleDateString()}
                   </p>
                 </div>
                 <div>
                   <Label className="text-sm font-medium text-gray-500">Account Status</Label>
                   <div className="mt-1">
-                    <Badge className="bg-green-100 text-green-800">
+                    <Badge className="flex items-center px-3 py-1 text-sm font-semibold rounded-full bg-green-100 text-green-800 shadow-md animate-pulse-slow">
                       <CheckCircle className="h-3 w-3 mr-1" />
                       Active
                     </Badge>
@@ -416,6 +461,7 @@ export default function SettingsPage() {
             </div>
           </CardContent>
         </Card>
+
       </div>
     </div>
   );

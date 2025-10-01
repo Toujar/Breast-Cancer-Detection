@@ -42,7 +42,7 @@ interface RecentPrediction {
 export default function DashboardClient() {
   // const { user, logout } = useAuth();
   const router = useRouter();
-  const [user, setUser] = useState<{email: string; username: string; role: string} | null>(null);
+  const [user, setUser] = useState<{ email: string; username: string; role: string } | null>(null);
   const [stats, setStats] = useState<DashboardStats>({
     totalPredictions: 0,
     recentPredictions: 0,
@@ -52,7 +52,7 @@ export default function DashboardClient() {
   const [recentPredictions, setRecentPredictions] = useState<RecentPrediction[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
-   // Fetch user from /api/auth/me
+  // Fetch user from /api/auth/me
   useEffect(() => {
     const fetchUser = async () => {
       const res = await fetch('/api/auth/me');
@@ -65,7 +65,7 @@ export default function DashboardClient() {
 
   useEffect(() => {
     if (user) {
-    fetchDashboardData();
+      fetchDashboardData();
     }
   }, [user]);
 
@@ -96,7 +96,7 @@ export default function DashboardClient() {
   //   logout();
   //   router.push('/auth/login');
   // };
-   const handleLogout = async () => {
+  const handleLogout = async () => {
     // clear cookie
     await fetch('/api/auth/logout', { method: 'POST' });
     router.push('/');
@@ -163,78 +163,80 @@ export default function DashboardClient() {
         </div>
 
         {/* Quick Stats */}
+        {/* Quick Stats */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-          <Card className="border-0 shadow-lg">
+          <Card className="border-0 shadow-xl hover:shadow-2xl transition-all duration-300 rounded-2xl bg-gradient-to-br from-blue-50 to-blue-100">
             <CardContent className="p-6 flex justify-between items-center">
               <div>
                 <p className="text-sm text-gray-600">Total Predictions</p>
                 <p className="text-2xl font-bold text-gray-900">{stats.totalPredictions}</p>
               </div>
-              <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
-                <Brain className="h-6 w-6 text-blue-600" />
+              <div className="w-14 h-14 bg-blue-200 rounded-lg flex items-center justify-center shadow-md">
+                <Brain className="h-7 w-7 text-blue-700" />
               </div>
             </CardContent>
           </Card>
 
-          <Card className="border-0 shadow-lg">
+          <Card className="border-0 shadow-xl hover:shadow-2xl transition-all duration-300 rounded-2xl bg-gradient-to-br from-green-50 to-green-100">
             <CardContent className="p-6 flex justify-between items-center">
               <div>
                 <p className="text-sm text-gray-600">This Week</p>
                 <p className="text-2xl font-bold text-gray-900">{stats.recentPredictions}</p>
               </div>
-              <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
-                <TrendingUp className="h-6 w-6 text-green-600" />
+              <div className="w-14 h-14 bg-green-200 rounded-lg flex items-center justify-center shadow-md">
+                <TrendingUp className="h-7 w-7 text-green-700" />
               </div>
             </CardContent>
           </Card>
 
-          <Card className="border-0 shadow-lg">
+          <Card className="border-0 shadow-xl hover:shadow-2xl transition-all duration-300 rounded-2xl bg-gradient-to-br from-purple-50 to-purple-100">
             <CardContent className="p-6 flex justify-between items-center">
               <div>
                 <p className="text-sm text-gray-600">Model Accuracy</p>
                 <p className="text-2xl font-bold text-gray-900">{stats.accuracy}%</p>
               </div>
-              <div className="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center">
-                <BarChart3 className="h-6 w-6 text-purple-600" />
+              <div className="w-14 h-14 bg-purple-200 rounded-lg flex items-center justify-center shadow-md">
+                <BarChart3 className="h-7 w-7 text-purple-700" />
               </div>
             </CardContent>
           </Card>
 
-          <Card className="border-0 shadow-lg">
+          <Card className="border-0 shadow-xl hover:shadow-2xl transition-all duration-300 rounded-2xl bg-gradient-to-br from-orange-50 to-orange-100">
             <CardContent className="p-6 flex justify-between items-center">
               <div>
                 <p className="text-sm text-gray-600">Last Active</p>
                 <p className="text-2xl font-bold text-gray-900">{stats.lastActive}</p>
               </div>
-              <div className="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center">
-                <Clock className="h-6 w-6 text-orange-600" />
+              <div className="w-14 h-14 bg-orange-200 rounded-lg flex items-center justify-center shadow-md">
+                <Clock className="h-7 w-7 text-orange-700" />
               </div>
             </CardContent>
           </Card>
         </div>
+
 
         {/* Main Content Grid */}
         <div className="grid lg:grid-cols-3 gap-8">
           {/* Quick Actions + Recent Predictions */}
           <div className="lg:col-span-2 space-y-8">
             {/* Quick Actions */}
-            <Card className="border-0 shadow-lg">
+            <Card className="border-0 shadow-xl hover:shadow-2xl transition-all duration-300 rounded-2xl bg-gradient-to-br from-indigo-50 to-indigo-100">
               <CardHeader>
                 <CardTitle className="flex items-center space-x-2">
-                  <Activity className="h-5 w-5" />
-                  <span>Quick Actions</span>
+                  <Activity className="h-5 w-5 text-indigo-600" />
+                  <span className="text-lg font-semibold text-gray-800">Quick Actions</span>
                 </CardTitle>
-                <CardDescription>
+                <CardDescription className="text-gray-500">
                   Start a new analysis or view your previous results
                 </CardDescription>
               </CardHeader>
               <CardContent>
                 <div className="grid md:grid-cols-2 gap-4">
                   <Link href="/predict/tabular">
-                    <Card className="cursor-pointer hover:shadow-lg transition-all duration-300 border-2 border-transparent hover:border-blue-200">
+                    <Card className="cursor-pointer transform hover:scale-105 transition-transform duration-300 border-2 border-transparent hover:border-indigo-300 bg-gradient-to-br from-indigo-100 to-indigo-50 rounded-xl shadow-sm">
                       <CardContent className="p-6 text-center">
-                        <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mx-auto mb-4">
-                          <FileText className="h-6 w-6 text-blue-600" />
+                        <div className="w-14 h-14 bg-indigo-200 rounded-lg flex items-center justify-center mx-auto mb-4 shadow-md">
+                          <FileText className="h-6 w-6 text-indigo-700" />
                         </div>
                         <h3 className="font-semibold text-gray-900 mb-2">Data Analysis</h3>
                         <p className="text-sm text-gray-600">
@@ -245,10 +247,10 @@ export default function DashboardClient() {
                   </Link>
 
                   <Link href="/predict/image">
-                    <Card className="cursor-pointer hover:shadow-lg transition-all duration-300 border-2 border-transparent hover:border-green-200">
+                    <Card className="cursor-pointer transform hover:scale-105 transition-transform duration-300 border-2 border-transparent hover:border-green-300 bg-gradient-to-br from-green-100 to-green-50 rounded-xl shadow-sm">
                       <CardContent className="p-6 text-center">
-                        <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center mx-auto mb-4">
-                          <Upload className="h-6 w-6 text-green-600" />
+                        <div className="w-14 h-14 bg-green-200 rounded-lg flex items-center justify-center mx-auto mb-4 shadow-md">
+                          <Upload className="h-6 w-6 text-green-700" />
                         </div>
                         <h3 className="font-semibold text-gray-900 mb-2">Image Analysis</h3>
                         <p className="text-sm text-gray-600">
@@ -262,25 +264,38 @@ export default function DashboardClient() {
             </Card>
 
             {/* Recent Predictions */}
-            <Card className="border-0 shadow-lg">
+            <Card className="border-0 shadow-xl hover:shadow-2xl transition-all duration-300 rounded-2xl bg-gradient-to-br from-pink-50 to-purple-50">
               <CardHeader>
                 <CardTitle className="flex items-center space-x-2">
-                  <History className="h-5 w-5" />
-                  <span>Recent Predictions</span>
+                  <History className="h-5 w-5 text-pink-500" />
+                  <span className="text-lg font-semibold text-gray-800">Recent Predictions</span>
                 </CardTitle>
-                <CardDescription>Your latest AI analysis results</CardDescription>
+                <CardDescription className="text-sm text-gray-500">
+                  Your latest AI analysis results
+                </CardDescription>
               </CardHeader>
               <CardContent>
                 {recentPredictions.length > 0 ? (
                   <div className="space-y-4">
                     {recentPredictions.map((prediction) => (
-                      <div key={prediction.id} className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
+                      <div
+                        key={prediction.id}
+                        className={`flex items-center justify-between p-4 rounded-xl shadow-sm transition-all duration-300
+                bg-gradient-to-r ${prediction.result === 'benign' ? 'from-green-50 to-green-100 hover:from-green-100 hover:to-green-200' : 'from-red-50 to-red-100 hover:from-red-100 hover:to-red-200'}`}
+                      >
                         <div className="flex items-center space-x-4">
-                          <div className={`w-10 h-10 rounded-lg flex items-center justify-center ${prediction.result === 'benign' ? 'bg-green-100' : 'bg-red-100'}`}>
+                          <div
+                            className={`w-12 h-12 rounded-full flex items-center justify-center 
+                  ${prediction.result === 'benign' ? 'bg-green-200 ring-green-300' : 'bg-red-200 ring-red-300'} ring-2 transition-all duration-300`}
+                          >
                             {prediction.type === 'tabular' ? (
-                              <FileText className={`h-5 w-5 ${prediction.result === 'benign' ? 'text-green-600' : 'text-red-600'}`} />
+                              <FileText
+                                className={`h-6 w-6 ${prediction.result === 'benign' ? 'text-green-700' : 'text-red-700'}`}
+                              />
                             ) : (
-                              <Upload className={`h-5 w-5 ${prediction.result === 'benign' ? 'text-green-600' : 'text-red-600'}`} />
+                              <Upload
+                                className={`h-6 w-6 ${prediction.result === 'benign' ? 'text-green-700' : 'text-red-700'}`}
+                              />
                             )}
                           </div>
                           <div>
@@ -290,7 +305,9 @@ export default function DashboardClient() {
                             <p className="text-sm text-gray-500">{prediction.date}</p>
                           </div>
                         </div>
-                        <Badge variant={prediction.result === 'benign' ? 'default' : 'destructive'}>
+                        <Badge
+                          className={`px-3 py-1 rounded-full text-sm font-medium ${prediction.result === 'benign' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}`}
+                        >
                           {prediction.type}
                         </Badge>
                       </div>
@@ -303,13 +320,13 @@ export default function DashboardClient() {
                     <p className="text-gray-600 mb-6">Kickstart your journey with a quick analysis below.</p>
                     <div className="flex flex-col sm:flex-row gap-3 justify-center">
                       <Link href="/predict/tabular">
-                        <Button>
+                        <Button className="bg-indigo-500 text-white hover:bg-indigo-600 transition rounded-lg px-5 py-2">
                           <FileText className="h-4 w-4 mr-2" />
                           Start Data Analysis
                         </Button>
                       </Link>
                       <Link href="/predict/image">
-                        <Button variant="outline">
+                        <Button className="bg-green-500 text-white hover:bg-green-600 transition rounded-lg px-5 py-2">
                           <Upload className="h-4 w-4 mr-2" />
                           Start Image Analysis
                         </Button>
@@ -321,111 +338,117 @@ export default function DashboardClient() {
             </Card>
           </div>
 
+
           {/* Sidebar */}
           <div className="space-y-6">
             {/* Model Performance */}
-            <Card className="border-0 shadow-lg">
+            <Card className="border-0 shadow-xl hover:shadow-2xl transition-all duration-300 rounded-2xl bg-gradient-to-br from-blue-50 to-blue-100">
               <CardHeader>
-                <CardTitle className="text-lg">Model Performance</CardTitle>
+                <CardTitle className="text-lg font-semibold text-gray-800">Model Performance</CardTitle>
               </CardHeader>
-              <CardContent className="space-y-4">
-                <div>
-                  <div className="flex justify-between text-sm mb-2">
-                    <span>Accuracy</span>
-                    <span>97.8%</span>
+              <CardContent className="space-y-5">
+                {[
+                  { label: 'Accuracy', value: 97.8, gradient: 'from-blue-400 to-blue-600' },
+                  { label: 'Precision', value: 96.4, gradient: 'from-purple-400 to-purple-600' },
+                  { label: 'Recall', value: 98.1, gradient: 'from-teal-400 to-teal-600' },
+                  { label: 'F1-Score', value: 97.2, gradient: 'from-pink-400 to-pink-600' },
+                ].map((metric) => (
+                  <div key={metric.label} className="space-y-1">
+                    <div className="flex justify-between text-sm font-medium text-gray-700">
+                      <span>{metric.label}</span>
+                      <span>{metric.value}%</span>
+                    </div>
+                    <div className="w-full h-3 bg-gray-200 rounded-full overflow-hidden">
+                      <div
+                        className={`h-3 rounded-full bg-gradient-to-r ${metric.gradient} transition-all duration-500`}
+                        style={{ width: `${metric.value}%` }}
+                      ></div>
+                    </div>
                   </div>
-                  <Progress value={97.8} className="h-2" />
-                </div>
-                <div>
-                  <div className="flex justify-between text-sm mb-2">
-                    <span>Precision</span>
-                    <span>96.4%</span>
-                  </div>
-                  <Progress value={96.4} className="h-2" />
-                </div>
-                <div>
-                  <div className="flex justify-between text-sm mb-2">
-                    <span>Recall</span>
-                    <span>98.1%</span>
-                  </div>
-                  <Progress value={98.1} className="h-2" />
-                </div>
-                <div>
-                  <div className="flex justify-between text-sm mb-2">
-                    <span>F1-Score</span>
-                    <span>97.2%</span>
-                  </div>
-                  <Progress value={97.2} className="h-2" />
-                </div>
+                ))}
               </CardContent>
             </Card>
 
-            {/* Quick Links */}
-            <Card className="border-0 shadow-lg">
+            {/* Quick Access */}
+            <Card className="border-0 shadow-xl hover:shadow-2xl transition-all duration-300 rounded-2xl bg-gradient-to-br from-indigo-50 to-indigo-100">
               <CardHeader>
-                <CardTitle className="text-lg">Quick Access</CardTitle>
+                <CardTitle className="text-lg font-semibold text-gray-800">Quick Access</CardTitle>
               </CardHeader>
               <CardContent className="space-y-3">
                 <Link href="/history">
-                  <Button variant="ghost" className="w-full justify-start">
-                    <History className="h-4 w-4 mr-3" />
+                  <Button
+                    variant="ghost"
+                    className="w-full justify-start rounded-lg px-4 py-2 hover:bg-gradient-to-r hover:from-indigo-100 hover:to-indigo-200 transition-all duration-300"
+                  >
+                    <History className="h-5 w-5 mr-3 text-indigo-600" />
                     View History
                   </Button>
                 </Link>
                 <Link href="/analytics">
-                  <Button variant="ghost" className="w-full justify-start">
-                    <BarChart3 className="h-4 w-4 mr-3" />
+                  <Button
+                    variant="ghost"
+                    className="w-full justify-start rounded-lg px-4 py-2 hover:bg-gradient-to-r hover:from-green-100 hover:to-green-200 transition-all duration-300"
+                  >
+                    <BarChart3 className="h-5 w-5 mr-3 text-green-600" />
                     Analytics
                   </Button>
                 </Link>
                 {user && (
                   <Link href="/admin">
-                    <Button variant="ghost" className="w-full justify-start">
-                      <Users className="h-4 w-4 mr-3" />
+                    <Button
+                      variant="ghost"
+                      className="w-full justify-start rounded-lg px-4 py-2 hover:bg-gradient-to-r hover:from-pink-100 hover:to-pink-200 transition-all duration-300"
+                    >
+                      <Users className="h-5 w-5 mr-3 text-pink-600" />
                       Admin Panel
                     </Button>
                   </Link>
                 )}
                 <Link href="/settings">
-                  <Button variant="ghost" className="w-full justify-start">
-                    <Settings className="h-4 w-4 mr-3" />
+                  <Button
+                    variant="ghost"
+                    className="w-full justify-start rounded-lg px-4 py-2 hover:bg-gradient-to-r hover:from-gray-100 hover:to-gray-200 transition-all duration-300"
+                  >
+                    <Settings className="h-5 w-5 mr-3 text-gray-600" />
                     Settings
                   </Button>
                 </Link>
               </CardContent>
             </Card>
 
+
+
             {/* System Status */}
-            <Card className="border-0 shadow-lg">
+            <Card className="border-0 shadow-xl hover:shadow-2xl transition-all duration-300 rounded-2xl bg-gradient-to-br from-gray-50 to-gray-100">
               <CardHeader>
-                <CardTitle className="text-lg">System Status</CardTitle>
+                <CardTitle className="text-lg font-semibold text-gray-800">System Status</CardTitle>
               </CardHeader>
-              <CardContent className="space-y-3">
-                <div className="flex items-center justify-between">
-                  <span className="text-sm">AI Model</span>
-                  <Badge className="bg-green-100 text-green-800">
-                    <CheckCircle className="h-3 w-3 mr-1" />
-                    Active
-                  </Badge>
-                </div>
-                <div className="flex items-center justify-between">
-                  <span className="text-sm">API Status</span>
-                  <Badge className="bg-green-100 text-green-800">
-                    <CheckCircle className="h-3 w-3 mr-1" />
-                    Online
-                  </Badge>
-                </div>
-                <div className="flex items-center justify-between">
-                  <span className="text-sm">Database</span>
-                  <Badge className="bg-green-100 text-green-800">
-                    <CheckCircle className="h-3 w-3 mr-1" />
-                    Connected
-                  </Badge>
-                </div>
+              <CardContent className="space-y-4">
+                {[
+                  { label: 'AI Model', status: 'Active', iconColor: 'text-green-600', bgColor: 'bg-green-100', gradient: 'bg-gradient-to-r from-green-100 to-green-200' },
+                  { label: 'API Status', status: 'Online', iconColor: 'text-blue-600', bgColor: 'bg-blue-100', gradient: 'bg-gradient-to-r from-blue-100 to-blue-200' },
+                  { label: 'Database', status: 'Connected', iconColor: 'text-purple-600', bgColor: 'bg-purple-100', gradient: 'bg-gradient-to-r from-purple-100 to-purple-200' },
+                ].map((item) => (
+                  <div
+                    key={item.label}
+                    className={`flex items-center justify-between p-3 rounded-xl ${item.gradient} shadow-sm hover:scale-105 transition-transform duration-300`}
+                  >
+                    <span className="text-sm font-medium text-gray-700">{item.label}</span>
+                    <Badge
+                      className={`flex items-center px-3 py-1 rounded-full font-medium text-sm ${item.bgColor} ${item.iconColor} shadow-md`}
+                    >
+                      <CheckCircle className={`h-4 w-4 mr-1 ${item.iconColor}`} />
+                      {item.status}
+                    </Badge>
+                  </div>
+                ))}
               </CardContent>
             </Card>
+
+
           </div>
         </div>
+
       </div>
     </div>
   );

@@ -72,7 +72,7 @@ export default function AnalyticsPage() {
         const predictions = await predictionsRes.json();
         const imageCount = predictions.filter((p: any) => p.type === 'image').length;
         const tabularCount = predictions.filter((p: any) => p.type === 'tabular').length;
-        
+
         setAnalytics(prev => ({
           ...prev,
           predictionTypes: { image: imageCount, tabular: tabularCount },
@@ -167,62 +167,71 @@ export default function AnalyticsPage() {
 
         {/* Stats Grid */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-          <Card className="border-0 shadow-lg">
+          <Card className="border-0 shadow-lg hover:shadow-2xl transition-all transform hover:scale-105">
             <CardContent className="p-6">
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-sm text-gray-600">Total Predictions</p>
-                  <p className="text-2xl font-bold text-gray-900">{analytics.totalPredictions}</p>
+                  <p className="text-2xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500">
+                    {analytics.totalPredictions}
+                  </p>
                 </div>
-                <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
-                  <Brain className="h-6 w-6 text-blue-600" />
+                <div className="w-12 h-12 bg-gradient-to-br from-blue-300 to-indigo-400 rounded-lg flex items-center justify-center shadow-lg">
+                  <Brain className="h-6 w-6 text-white" />
                 </div>
               </div>
             </CardContent>
           </Card>
 
-          <Card className="border-0 shadow-lg">
+          <Card className="border-0 shadow-lg hover:shadow-2xl transition-all transform hover:scale-105">
             <CardContent className="p-6">
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-sm text-gray-600">Accuracy Rate</p>
-                  <p className="text-2xl font-bold text-gray-900">{analytics.accuracyRate}%</p>
+                  <p className="text-2xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-green-400 via-teal-400 to-blue-500">
+                    {analytics.accuracyRate}%
+                  </p>
                 </div>
-                <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
-                  <Target className="h-6 w-6 text-green-600" />
+                <div className="w-12 h-12 bg-gradient-to-br from-green-300 to-teal-400 rounded-lg flex items-center justify-center shadow-lg">
+                  <Target className="h-6 w-6 text-white" />
                 </div>
               </div>
             </CardContent>
           </Card>
 
-          <Card className="border-0 shadow-lg">
+          <Card className="border-0 shadow-lg hover:shadow-2xl transition-all transform hover:scale-105">
             <CardContent className="p-6">
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-sm text-gray-600">Image Analysis</p>
-                  <p className="text-2xl font-bold text-gray-900">{analytics.predictionTypes.image}</p>
+                  <p className="text-2xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 via-pink-400 to-red-400">
+                    {analytics.predictionTypes.image}
+                  </p>
                 </div>
-                <div className="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center">
-                  <FileText className="h-6 w-6 text-purple-600" />
+                <div className="w-12 h-12 bg-gradient-to-br from-purple-300 to-pink-400 rounded-lg flex items-center justify-center shadow-lg">
+                  <FileText className="h-6 w-6 text-white" />
                 </div>
               </div>
             </CardContent>
           </Card>
 
-          <Card className="border-0 shadow-lg">
+          <Card className="border-0 shadow-lg hover:shadow-2xl transition-all transform hover:scale-105">
             <CardContent className="p-6">
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-sm text-gray-600">Tabular Data</p>
-                  <p className="text-2xl font-bold text-gray-900">{analytics.predictionTypes.tabular}</p>
+                  <p className="text-2xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-orange-400 via-yellow-400 to-red-400">
+                    {analytics.predictionTypes.tabular}
+                  </p>
                 </div>
-                <div className="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center">
-                  <BarChart3 className="h-6 w-6 text-orange-600" />
+                <div className="w-12 h-12 bg-gradient-to-br from-orange-300 to-yellow-400 rounded-lg flex items-center justify-center shadow-lg">
+                  <BarChart3 className="h-6 w-6 text-white" />
                 </div>
               </div>
             </CardContent>
           </Card>
         </div>
+
 
         {/* Charts */}
         <div className="grid lg:grid-cols-2 gap-8 mb-8">
@@ -271,10 +280,11 @@ export default function AnalyticsPage() {
         </div>
 
         {/* Recent Activity */}
-        <Card className="border-0 shadow-lg">
+        {/* Recent Activity */}
+        <Card className="border-0 shadow-lg hover:shadow-2xl transition-all duration-300">
           <CardHeader>
             <CardTitle className="flex items-center space-x-2">
-              <Activity className="h-5 w-5" />
+              <Activity className="h-5 w-5 text-blue-600" />
               <span>Recent Activity</span>
             </CardTitle>
             <CardDescription>Your latest prediction activities</CardDescription>
@@ -283,17 +293,24 @@ export default function AnalyticsPage() {
             <div className="space-y-3">
               {analytics.recentActivity.length > 0 ? (
                 analytics.recentActivity.map((activity: any, index: number) => (
-                  <div key={index} className="flex items-center space-x-3 p-3 bg-gray-50 rounded-lg">
-                    <div className={`w-8 h-8 rounded-lg flex items-center justify-center ${
-                      activity.prediction === 'benign' ? 'bg-green-100' : 'bg-red-100'
-                    }`}>
-                      <FileText className={`h-4 w-4 ${
-                        activity.prediction === 'benign' ? 'text-green-600' : 'text-red-600'
-                      }`} />
+                  <div
+                    key={index}
+                    className={`flex items-center space-x-3 p-3 rounded-lg transition-transform transform hover:scale-105 ${activity.result === 'benign'
+                      ? 'bg-gradient-to-r from-green-100 via-green-200 to-green-100'
+                      : 'bg-gradient-to-r from-red-100 via-pink-100 to-red-100'
+                      }`}
+                  >
+                    <div
+                      className={`w-10 h-10 rounded-lg flex items-center justify-center ${activity.result === 'benign'
+                        ? 'bg-gradient-to-br from-green-400 to-green-600 text-white'
+                        : 'bg-gradient-to-br from-red-400 to-pink-600 text-white'
+                        } shadow-md animate-pulse-slow`}
+                    >
+                      <FileText className="h-5 w-5" />
                     </div>
                     <div className="flex-1 min-w-0">
-                      <p className="text-sm font-medium text-gray-900">
-                        {activity.type === 'image' ? 'Image Analysis' : 'Tabular Data'} - {activity.prediction}
+                      <p className="text-sm font-semibold text-gray-900">
+                        {activity.type === 'image' ? 'Image Analysis' : 'Tabular Data'} - {activity.result.charAt(0).toUpperCase() + activity.result.slice(1)}
                       </p>
                       <p className="text-xs text-gray-600">
                         Confidence: {activity.confidence?.toFixed(1)}% • {new Date(activity.createdAt).toLocaleDateString()}
@@ -303,13 +320,14 @@ export default function AnalyticsPage() {
                 ))
               ) : (
                 <div className="text-center py-8">
-                  <Activity className="h-8 w-8 text-gray-400 mx-auto mb-2" />
+                  <Activity className="h-8 w-8 text-gray-400 mx-auto mb-2 animate-bounce" />
                   <p className="text-gray-600">No recent activity. Start making predictions to see analytics!</p>
                 </div>
               )}
             </div>
           </CardContent>
         </Card>
+
       </div>
     </div>
   );

@@ -82,62 +82,15 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-indigo-50">
       {/* Navigation */}
-      <nav className="bg-white/80 backdrop-blur-md border-b border-gray-200 sticky top-0 z-50">
-        {/* <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16">
-            <div className="flex items-center space-x-3">
-              <div className="w-10 h-10 bg-gradient-to-br from-blue-600 to-indigo-600 rounded-lg flex items-center justify-center">
-                <Heart className="h-6 w-6 text-white" />
-              </div>
-              <div>
-                <h1 className="text-xl font-bold text-gray-900">AI Cancer Detection</h1>
-                <p className="text-xs text-gray-500">Medical AI Platform</p>
-              </div>
-            </div>
-            <div className="flex items-center space-x-4">
-              {user ? (
-                <div className="flex items-center space-x-3">
-                  <span className="text-sm text-gray-700">Welcome, {user.email}</span>
-                  <Link href="/dashboard">
-                    <Button size="sm">Dashboard</Button>
-                  </Link>
-                </div>
-              ) : (
-                <div className="flex items-center space-x-2">
-                  <Link href="/auth/login">
-                    <Button variant="ghost" size="sm">Login</Button>
-                  </Link>
-                  <Link href="/auth/signup">
-                    <Button size="sm">Get Started</Button>
-                  </Link>
-                </div>
-              )}
-            </div>
-          </div>
-        </div> */}
-        {/* {user ? (
-          <div className="flex items-center space-x-3">
-            <span className="text-sm text-gray-700">Welcome, {user.email}</span>
-            <Link href="/dashboard">
-              <Button size="sm">Dashboard</Button>
-            </Link>
-          </div>
-        ) : (
-          <div className="flex items-center space-x-2">
-            <Link href="/auth/login">
-              <Button variant="ghost" size="sm">Login</Button>
-            </Link>
-            <Link href="/auth/signup">
-              <Button size="sm">Get Started</Button>
-            </Link>
-          </div>
-        )} */}
+      {/* Navigation */}
+      <nav className="bg-white/80 backdrop-blur-md border-b border-gray-200 sticky top-0 z-50 shadow-md">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
+
             {/* Left: Logo + Title */}
             <div className="flex items-center space-x-3">
-              <div className="w-10 h-10 bg-gradient-to-br from-blue-600 to-indigo-600 rounded-lg flex items-center justify-center">
-                <Heart className="h-6 w-6 text-white" />
+              <div className="w-10 h-10 bg-gradient-to-br from-blue-600 to-indigo-600 rounded-lg flex items-center justify-center shadow-lg">
+                <Heart className="h-6 w-6 text-white animate-pulse" />
               </div>
               <div>
                 <h1 className="text-xl font-bold text-gray-900">AI Cancer Detection</h1>
@@ -151,121 +104,186 @@ export default function Home() {
                 <div className="flex items-center space-x-3">
                   <span className="text-sm text-gray-700">Welcome, {user.email}</span>
                   <Link href="/dashboard">
-                    <Button size="sm">Dashboard</Button>
+                    <Button
+                      size="sm"
+                      className="bg-gradient-to-r from-indigo-500 to-blue-500 text-white hover:from-blue-500 hover:to-indigo-500 transition-all shadow-md"
+                    >
+                      Dashboard
+                    </Button>
                   </Link>
                 </div>
               ) : (
                 <div className="flex items-center space-x-2">
                   <Link href="/auth">
-                    <Button variant="ghost" size="sm">Login</Button>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      className="border-indigo-500 text-indigo-500 hover:bg-indigo-50 transition-all"
+                    >
+                      Login
+                    </Button>
                   </Link>
                   <Link href="/auth/signup">
-                    <Button size="sm">Get Started</Button>
+                    <Button
+                      size="sm"
+                      className="bg-gradient-to-r from-green-400 to-teal-500 text-white hover:from-teal-500 hover:to-green-400 transition-all shadow-md"
+                    >
+                      Get Started
+                    </Button>
                   </Link>
                 </div>
               )}
             </div>
+
           </div>
         </div>
-
       </nav>
 
 
+
       {/* Hero Section */}
-      <section className="pt-20 pb-16 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-7xl mx-auto text-center">
-          <Badge className="mb-6 bg-blue-100 text-blue-800 hover:bg-blue-200">
-            <Stethoscope className="h-3 w-3 mr-1" />
+      {/* Hero Section */}
+      {/* Hero Section */}
+      <section className="pt-20 pb-16 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-purple-50 via-pink-50 to-yellow-50 relative overflow-hidden">
+        <div className="max-w-7xl mx-auto text-center relative z-10">
+
+          {/* Badge */}
+          <Badge className="mb-6 inline-flex items-center gap-2 px-4 py-1 rounded-full bg-gradient-to-r from-pink-300 via-purple-300 to-indigo-300 text-white font-semibold shadow-md hover:scale-105 transition-all">
+            <Stethoscope className="h-4 w-4 animate-pulse" />
             Powered by Advanced Machine Learning
           </Badge>
-          <h1 className="text-4xl md:text-6xl font-bold text-gray-900 mb-6 leading-tight">
+
+          {/* Main Heading */}
+          <h1 className="text-4xl md:text-6xl font-extrabold mb-6 leading-tight text-gray-900 relative">
             AI-Powered Breast Cancer
-            <span className="block text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600">
+            <span className="block text-transparent bg-clip-text bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 animate-gradient-x">
               Early Detection System
             </span>
+            <span className="absolute -bottom-6 left-1/2 transform -translate-x-1/2 w-48 h-2 bg-gradient-to-r from-pink-400 via-purple-400 to-indigo-400 rounded-full opacity-40 blur-2xl animate-pulse"></span>
           </h1>
-          <p className="text-xl text-gray-600 mb-8 max-w-3xl mx-auto leading-relaxed">
-            Revolutionary machine learning platform providing accurate, fast, and reliable breast cancer detection
-            using advanced algorithms trained on comprehensive medical datasets.
+
+          {/* Description */}
+          <p className="text-lg md:text-xl text-gray-700 mb-8 max-w-3xl mx-auto leading-relaxed">
+            A revolutionary machine learning platform providing accurate, fast, and reliable breast cancer detection
+            with multi-dimensional analysis and advanced algorithms trained on extensive medical datasets.
           </p>
+
+          {/* Action Buttons */}
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            {/* <Link href={user ? "/predict" : "/auth/signup"}>
-              <Button size="lg" className="text-lg px-8 py-3 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700">
-                Start Analysis
-                <ArrowRight className="ml-2 h-5 w-5" />
-              </Button>
-            </Link> */}
             <Link href={user ? "/predict" : "/auth"}>
-              <Button size="lg" className="text-lg px-8 py-3 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700">
+              <Button
+                size="lg"
+                className="text-lg px-8 py-3 bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 hover:from-pink-600 hover:via-purple-600 hover:to-indigo-600 shadow-lg transition-all transform hover:scale-105 flex items-center justify-center text-white"
+              >
                 Start Analysis
-                <ArrowRight className="ml-2 h-5 w-5" />
+                <ArrowRight className="ml-2 h-5 w-5 animate-bounce" />
               </Button>
             </Link>
 
             <Link href="/about">
-              <Button variant="outline" size="lg" className="text-lg px-8 py-3">
+              <Button
+                variant="outline"
+                size="lg"
+                className="relative text-lg px-8 py-3 rounded-lg font-semibold
+             text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 via-blue-800 to-purple-400
+             border-2 border-transparent hover:text-white hover:bg-gradient-to-r hover:from-yellow-400 hover:via-pink-400 hover:to-purple-400
+             shadow-md transition-all
+             after:absolute after:inset-0 after:bg-gradient-to-r after:from-yellow-400 after:via-blue-800 after:to-purple-400 after:rounded-lg after:-z-10 after:opacity-30"
+              >
                 Learn More
               </Button>
+
             </Link>
           </div>
         </div>
+
+        {/* Background Shapes */}
+        <div className="absolute top-0 left-0 w-96 h-96 bg-gradient-to-r from-pink-300 via-purple-300 to-indigo-300 rounded-full opacity-20 blur-3xl animate-pulse -translate-x-1/2 -translate-y-1/2"></div>
+        <div className="absolute bottom-0 right-0 w-96 h-96 bg-gradient-to-r from-yellow-300 via-pink-300 to-purple-300 rounded-full opacity-20 blur-3xl animate-pulse translate-x-1/2 translate-y-1/2"></div>
       </section>
 
+
+
       {/* Stats Section */}
-      <section className="py-16 bg-white/50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      {/* Stats Section */}
+      {/* Stats Section */}
+      <section className="py-20 bg-gradient-to-b from-purple-50 via-pink-50 to-yellow-50 relative overflow-hidden">
+        {/* Abstract color shapes */}
+        <div className="absolute top-0 left-1/4 w-72 h-72 bg-gradient-to-tr from-pink-300 via-purple-300 to-indigo-400 rounded-full opacity-20 animate-pulse-slow blur-3xl"></div>
+        <div className="absolute bottom-0 right-1/4 w-64 h-64 bg-gradient-to-br from-yellow-300 via-orange-300 to-red-400 rounded-full opacity-20 animate-pulse-slow blur-3xl"></div>
+
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-            <div className="text-center">
-              <div className="text-3xl md:text-4xl font-bold text-blue-600 mb-2">
+
+            {/* Total Predictions */}
+            <div className="text-center relative group p-6 rounded-xl bg-white/30 backdrop-blur-md shadow-lg hover:shadow-2xl transition-all">
+              <div className="text-3xl md:text-4xl font-extrabold mb-2 bg-clip-text text-transparent bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-600 animate-gradient-x">
                 {stats.totalPredictions.toLocaleString()}+
               </div>
-              <div className="text-gray-600">Predictions Made</div>
+              <div className="text-gray-700 font-medium">Predictions Made</div>
             </div>
-            <div className="text-center">
-              <div className="text-3xl md:text-4xl font-bold text-green-600 mb-2">
+
+            {/* Model Accuracy */}
+            <div className="text-center relative group p-6 rounded-xl bg-white/30 backdrop-blur-md shadow-lg hover:shadow-2xl transition-all">
+              <div className="text-3xl md:text-4xl font-extrabold mb-2 bg-clip-text text-transparent bg-gradient-to-r from-green-400 via-teal-400 to-blue-500 animate-gradient-x">
                 {stats.accuracy}%
               </div>
-              <div className="text-gray-600">Model Accuracy</div>
+              <div className="text-gray-700 font-medium">Model Accuracy</div>
             </div>
-            <div className="text-center">
-              <div className="text-3xl md:text-4xl font-bold text-purple-600 mb-2">
+
+            {/* Healthcare Providers */}
+            <div className="text-center relative group p-6 rounded-xl bg-white/30 backdrop-blur-md shadow-lg hover:shadow-2xl transition-all">
+              <div className="text-3xl md:text-4xl font-extrabold mb-2 bg-clip-text text-transparent bg-gradient-to-r from-purple-400 via-pink-400 to-red-500 animate-gradient-x">
                 {stats.usersServed}+
               </div>
-              <div className="text-gray-600">Healthcare Providers</div>
+              <div className="text-gray-700 font-medium">Healthcare Providers</div>
             </div>
-            <div className="text-center">
-              <div className="text-3xl md:text-4xl font-bold text-indigo-600 mb-2">
+
+            {/* Active Models */}
+            <div className="text-center relative group p-6 rounded-xl bg-white/30 backdrop-blur-md shadow-lg hover:shadow-2xl transition-all">
+              <div className="text-3xl md:text-4xl font-extrabold mb-2 bg-clip-text text-transparent bg-gradient-to-r from-yellow-400 via-orange-400 to-pink-500 animate-gradient-x">
                 {stats.modelsActive}
               </div>
-              <div className="text-gray-600">Active Models</div>
+              <div className="text-gray-700 font-medium">Active Models</div>
             </div>
+
           </div>
         </div>
       </section>
 
+
+
       {/* Features Section */}
-      <section className="py-20 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-7xl mx-auto">
+      <section className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-purple-50 via-pink-50 to-yellow-50 relative overflow-hidden">
+        {/* Background shapes */}
+        <div className="absolute top-0 left-1/2 transform -translate-x-1/2 w-80 h-80 bg-gradient-to-tr from-pink-300 via-purple-300 to-indigo-400 rounded-full opacity-20 animate-pulse-slow blur-3xl"></div>
+        <div className="absolute bottom-0 right-1/4 w-64 h-64 bg-gradient-to-br from-yellow-300 via-orange-300 to-red-400 rounded-full opacity-20 animate-pulse-slow blur-3xl"></div>
+
+        <div className="max-w-7xl mx-auto relative z-10">
           <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+            <h2 className="text-3xl md:text-4xl font-extrabold text-gray-900 mb-4">
               Advanced Detection Capabilities
             </h2>
-            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+            <p className="text-xl text-gray-700 max-w-2xl mx-auto">
               Our platform combines cutting-edge AI technology with medical expertise to provide
               accurate and reliable breast cancer detection.
             </p>
           </div>
+
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
             {features.map((feature, index) => (
-              <Card key={index} className="border-0 shadow-lg hover:shadow-xl transition-all duration-300 prediction-card">
-                <CardHeader className="text-center pb-4">
-                  <div className="w-12 h-12 bg-gradient-to-br from-blue-600 to-indigo-600 rounded-lg flex items-center justify-center mx-auto mb-4 text-white">
+              <Card
+                key={index}
+                className="border-0 shadow-xl hover:shadow-2xl transition-all duration-300 relative overflow-hidden group"
+              >
+                <CardHeader className="text-center pb-4 relative z-10">
+                  <div className="w-12 h-12 rounded-lg flex items-center justify-center mx-auto mb-4 text-white bg-gradient-to-br from-pink-500 via-purple-500 to-indigo-600 shadow-lg transform group-hover:scale-110 transition-transform duration-500">
                     {feature.icon}
                   </div>
                   <CardTitle className="text-lg font-semibold">{feature.title}</CardTitle>
                 </CardHeader>
-                <CardContent>
-                  <CardDescription className="text-center leading-relaxed">
+                <CardContent className="relative z-10">
+                  <CardDescription className="text-center leading-relaxed text-gray-700">
                     {feature.description}
                   </CardDescription>
                 </CardContent>
@@ -276,42 +294,42 @@ export default function Home() {
       </section>
 
       {/* Dataset Information */}
-      <section className="py-20 bg-gray-50 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-7xl mx-auto">
+      <section className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-yellow-50 via-pink-50 to-purple-50 relative overflow-hidden">
+        {/* Background shapes */}
+        <div className="absolute top-10 left-0 w-60 h-60 bg-gradient-to-tr from-pink-300 via-purple-300 to-indigo-400 rounded-full opacity-20 animate-pulse-slow blur-3xl"></div>
+        <div className="absolute bottom-0 right-0 w-80 h-80 bg-gradient-to-br from-yellow-300 via-orange-300 to-red-400 rounded-full opacity-20 animate-pulse-slow blur-3xl"></div>
+
+        <div className="max-w-7xl mx-auto relative z-10">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div>
-              <Badge className="mb-4 bg-green-100 text-green-800">
+              <Badge className="mb-4 bg-gradient-to-r from-green-400 via-teal-400 to-blue-400 text-white shadow-lg animate-pulse">
                 <CheckCircle className="h-3 w-3 mr-1" />
                 Wisconsin Breast Cancer Dataset
               </Badge>
               <h2 className="text-3xl font-bold text-gray-900 mb-6">
                 Trained on Comprehensive Medical Data
               </h2>
-              <p className="text-lg text-gray-600 mb-6 leading-relaxed">
+              <p className="text-lg text-gray-700 mb-6 leading-relaxed">
                 Our AI models are trained on the renowned Wisconsin Breast Cancer Dataset,
                 containing detailed cellular characteristics from 569 breast mass samples
                 with 30 distinct features.
               </p>
               <div className="space-y-3">
-                <div className="flex items-center space-x-3">
-                  <CheckCircle className="h-5 w-5 text-green-600" />
-                  <span className="text-gray-700">569 breast mass samples analyzed</span>
-                </div>
-                <div className="flex items-center space-x-3">
-                  <CheckCircle className="h-5 w-5 text-green-600" />
-                  <span className="text-gray-700">30 cellular characteristics measured</span>
-                </div>
-                <div className="flex items-center space-x-3">
-                  <CheckCircle className="h-5 w-5 text-green-600" />
-                  <span className="text-gray-700">97.8% classification accuracy achieved</span>
-                </div>
-                <div className="flex items-center space-x-3">
-                  <CheckCircle className="h-5 w-5 text-green-600" />
-                  <span className="text-gray-700">Validated by medical professionals</span>
-                </div>
+                {[
+                  "569 breast mass samples analyzed",
+                  "30 cellular characteristics measured",
+                  "97.8% classification accuracy achieved",
+                  "Validated by medical professionals"
+                ].map((item, idx) => (
+                  <div key={idx} className="flex items-center space-x-3">
+                    <CheckCircle className="h-5 w-5 text-green-500" />
+                    <span className="text-gray-700">{item}</span>
+                  </div>
+                ))}
               </div>
             </div>
-            <Card className="shadow-2xl border-0">
+
+            <Card className="shadow-2xl border-0 overflow-hidden">
               <CardHeader>
                 <CardTitle className="flex items-center space-x-2">
                   <FileText className="h-5 w-5" />
@@ -320,16 +338,16 @@ export default function Home() {
               </CardHeader>
               <CardContent className="space-y-4">
                 <div className="grid grid-cols-2 gap-4">
-                  <div className="text-center p-3 bg-blue-50 rounded-lg">
-                    <div className="text-2xl font-bold text-blue-600">357</div>
-                    <div className="text-sm text-gray-600">Benign Cases</div>
+                  <div className="text-center p-3 rounded-lg bg-gradient-to-br from-blue-400 to-indigo-500 text-white shadow-lg">
+                    <div className="text-2xl font-bold">357</div>
+                    <div className="text-sm">Benign Cases</div>
                   </div>
-                  <div className="text-center p-3 bg-red-50 rounded-lg">
-                    <div className="text-2xl font-bold text-red-600">212</div>
-                    <div className="text-sm text-gray-600">Malignant Cases</div>
+                  <div className="text-center p-3 rounded-lg bg-gradient-to-br from-red-400 to-pink-500 text-white shadow-lg">
+                    <div className="text-2xl font-bold">212</div>
+                    <div className="text-sm">Malignant Cases</div>
                   </div>
                 </div>
-                <div className="text-sm text-gray-600 leading-relaxed">
+                <div className="text-sm text-gray-700 leading-relaxed mt-3">
                   Features include radius, texture, perimeter, area, smoothness, compactness,
                   concavity, concave points, symmetry, and fractal dimension with mean,
                   standard error, and worst values.
@@ -340,32 +358,39 @@ export default function Home() {
         </div>
       </section>
 
+
       {/* Team Section */}
-      <section className="py-20 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+      {/* Team Section */}
+      <section className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-purple-50 via-pink-50 to-yellow-50 relative overflow-hidden">
+        {/* Background abstract shapes */}
+        <div className="absolute top-0 left-1/2 transform -translate-x-1/2 w-72 h-72 bg-gradient-to-tr from-pink-300 via-purple-300 to-indigo-400 rounded-full opacity-20 animate-pulse-slow blur-3xl"></div>
+        <div className="absolute bottom-0 right-0 w-64 h-64 bg-gradient-to-br from-yellow-300 via-orange-300 to-red-400 rounded-full opacity-20 animate-pulse-slow blur-3xl"></div>
+
+        <div className="max-w-7xl mx-auto relative z-10 text-center">
+          <div className="mb-16">
+            <h2 className="text-3xl md:text-4xl font-extrabold text-gray-900 mb-4">
               Expert Development Team
             </h2>
-            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-              Our multidisciplinary team combines medical expertise with advanced
-              AI development capabilities.
+            <p className="text-xl text-gray-700 max-w-2xl mx-auto">
+              Our multidisciplinary team combines medical expertise with advanced AI development capabilities.
             </p>
           </div>
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+
+          {/* Centered Team Members */}
+          <div className="flex flex-wrap justify-center gap-8">
             {teamMembers.map((member, index) => (
-              <Card key={index} className="text-center border-0 shadow-lg prediction-card">
+              <Card key={index} className="text-center border-0 shadow-xl hover:shadow-2xl transition-all duration-300 relative w-72">
                 <CardHeader>
-                  <div className="w-16 h-16 bg-gradient-to-br from-blue-600 to-indigo-600 rounded-full flex items-center justify-center mx-auto mb-4">
-                    <Users className="h-8 w-8 text-white" />
+                  <div className="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 text-white bg-gradient-to-br from-pink-500 via-purple-500 to-indigo-600 shadow-lg transform hover:scale-110 transition-transform duration-500">
+                    <Users className="h-8 w-8" />
                   </div>
-                  <CardTitle className="text-lg">{member.name}</CardTitle>
-                  <Badge variant="secondary" className="mx-auto">
+                  <CardTitle className="text-lg font-semibold">{member.name}</CardTitle>
+                  <Badge className="mx-auto bg-gradient-to-r from-green-400 via-teal-400 to-blue-400 text-white shadow-lg">
                     {member.role}
                   </Badge>
                 </CardHeader>
                 <CardContent>
-                  <p className="text-sm text-gray-600">{member.expertise}</p>
+                  <p className="text-sm text-gray-700">{member.expertise}</p>
                 </CardContent>
               </Card>
             ))}
@@ -373,31 +398,45 @@ export default function Home() {
         </div>
       </section>
 
+
       {/* CTA Section */}
-      <section className="py-20 bg-gradient-to-r from-blue-600 to-indigo-700 text-white px-4 sm:px-6 lg:px-8">
-        <div className="max-w-4xl mx-auto text-center">
-          <h2 className="text-3xl md:text-4xl font-bold mb-6">
+      {/* CTA Section */}
+      <section className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-r from-pink-100 via-purple-100 to-indigo-100 text-gray-900 relative overflow-hidden">
+        {/* Subtle floating shapes */}
+        <div className="absolute top-0 left-0 w-60 h-60 bg-gradient-to-tr from-yellow-200 via-orange-200 to-pink-200 rounded-full opacity-30 animate-pulse-slow blur-3xl"></div>
+        <div className="absolute bottom-0 right-0 w-72 h-72 bg-gradient-to-br from-blue-200 via-teal-200 to-green-200 rounded-full opacity-30 animate-pulse-slow blur-3xl"></div>
+
+        <div className="max-w-4xl mx-auto relative z-10 text-center">
+          <h2 className="text-3xl md:text-4xl font-extrabold mb-6">
             Ready to Experience Advanced AI Detection?
           </h2>
           <p className="text-xl opacity-90 mb-8 leading-relaxed">
-            Join hundreds of healthcare professionals using our platform for
-            accurate breast cancer detection and analysis.
+            Join hundreds of healthcare professionals using our platform for accurate breast cancer detection and analysis.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link href={user ? "/predict" : "/auth"}>
-              <Button size="lg" variant="secondary" className="text-lg px-8 py-3">
+              <Button
+                size="lg"
+                className="text-lg px-8 py-3 bg-gradient-to-r from-pink-300 via-purple-300 to-indigo-400 hover:from-purple-300 hover:via-indigo-300 hover:to-blue-400 shadow-2xl transition-all transform hover:scale-105 flex items-center justify-center text-white"
+              >
                 Start Free Analysis
-                <ArrowRight className="ml-2 h-5 w-5" />
+                <ArrowRight className="ml-2 h-5 w-5 animate-bounce text-white" />
               </Button>
             </Link>
             <Link href="/about">
-              <Button size="lg" variant="outline" className="text-lg px-8 py-3 border-white text-black hover:bg-white hover:text-blue-600">
+              <Button
+                size="lg"
+                variant="outline"
+                className="text-lg px-8 py-3 border-gray-300 border-2 text-gray-700 hover:bg-white hover:text-purple-600 shadow-lg transition-all"
+              >
                 View Documentation
               </Button>
             </Link>
           </div>
         </div>
       </section>
+
+
 
       {/* Footer */}
       <footer className="bg-gray-900 text-gray-300 py-12 px-4 sm:px-6 lg:px-8">
