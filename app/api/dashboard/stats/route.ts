@@ -64,7 +64,7 @@ export async function GET() {
       accuracyRate: +accuracyRate.toFixed(2),
       lastActive: 'Today', // optional: you can compute dynamically
     };
-
+    // console.log('Stats:', stats);
     return NextResponse.json(stats);
   } catch (error) {
     console.error(error);

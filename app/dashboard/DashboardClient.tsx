@@ -79,8 +79,9 @@ export default function DashboardClient() {
       if (statsResponse.ok) {
         const statsData = await statsResponse.json();
         setStats(statsData);
+        
+      console.log('Stats after fetch:', statsData);
       }
-
       if (predictionsResponse.ok) {
         const predictionsData = await predictionsResponse.json();
         setRecentPredictions(predictionsData);
